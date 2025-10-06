@@ -45,10 +45,12 @@
         ttl: "1"
         overwrite: true
      when: item.item != "frontend"
+
+   - name: update rotu53 records
      community.aws.route53:
         state: present
         zone: "{{ domain_name }}"
-        record: "{{ item.item }}.{{ domain_name }}" # mongodb.manidevops.fun
+        record: "{{ domain_name }}" # mongodb.manidevops.fun
         type: "A"
         value: "{{ item.instances[0].public_ip_address }}"
         ttl: "1"
