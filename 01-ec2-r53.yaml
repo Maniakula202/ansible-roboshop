@@ -44,4 +44,13 @@
         ttl: "1"
         overwrite: true
      when: item.item != "frontend"
+     community.aws.route53:
+        state: present
+        zone: "{{ domain_name }}"
+        record: "{{ item.item }}.{{ domain_name }}" # mongodb.manidevops.fun
+        type: "A"
+        value: "{{ item.instances[0].public_ip_address }}"
+        ttl: "1"
+        overwrite: true
+     when: item.item == "frontend"
      loop: "{{ ec2_output.results }}"
