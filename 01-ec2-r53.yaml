@@ -53,7 +53,7 @@
         zone: "{{ domain_name }}"
         record: "{{ domain_name }}" # mongodb.manidevops.fun
         type: "A"
-        value: "{{ item.instances[0].public_ip_address }}"
+        value: "{{ item.instances[0].public_ip }}"
         ttl: "1"
         overwrite: true
      when: item.item == "frontend"
