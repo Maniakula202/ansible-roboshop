@@ -26,5 +26,5 @@
    - name: Obtaing the private IP
      ansible.builtin.debug:
       msg: "{{ item.instances[0].private_ip_address }}"
-     loop: "{{ ec2_output }}"
+     loop: "{{ ec2_output.results }}"
 
