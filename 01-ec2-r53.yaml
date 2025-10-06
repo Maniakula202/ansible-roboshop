@@ -36,7 +36,7 @@
    - name: update rotu53 records
      community.aws.route53:
         state: present
-        zone: "{{ zone_id }}"
+        zone: "{{ domain_name }}"
         record: "{{ item.item }}.{{ domain_name }}" # mongodb.manidevops.fun
         type: "A"
         value: "{{ item.instances[0].private_ip_address }}"
