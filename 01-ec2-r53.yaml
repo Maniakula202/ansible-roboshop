@@ -8,6 +8,10 @@
     domain_name: "manidevops.fun"
     instances:
     - mysql
+    - nodejs
+    - catalogue
+    - user
+    - cart
 
   tasks:
    - name: Launch an EC2 Instance
