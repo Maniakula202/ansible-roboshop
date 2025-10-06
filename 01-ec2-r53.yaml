@@ -9,6 +9,7 @@
     instances:
     - mysql
     - nodejs
+    - frontend
 
   tasks:
    - name: Launch an EC2 Instance
