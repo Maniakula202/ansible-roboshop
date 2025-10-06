@@ -18,5 +18,9 @@
       security_group: "{{ sg_id }}" # Or security_group_ids: ["sg-0123456789abcdef0"]
      loop: "{{ instances }}"
      register: ec2_output
+
+   - name: print the ec2 output 
+     ansible.builtin.debug:
+      msg: "{{ ec2_output }}"
      
 
