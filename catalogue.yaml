@@ -84,9 +84,9 @@
     ansible.builtin.shell: mongosh --host mongodb.manidevops.fun </app/db/master-data.js
     when: catalogue_output.stdout | int < 0
 
-  - name: enabling and starting the redis
+  - name: enabling and starting the catalogue
     ansible.builtin.systemd_service:
-      name: redis
+      name: catalogue
       state: restarted
       enabled: yes
       deamon_reload: yes
