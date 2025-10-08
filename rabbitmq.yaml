@@ -10,7 +10,7 @@
   - name: install rebbitmq
     ansible.builtin.dnf:
       name: rabbitmq-server
-      state: started
+      state: present
 
   - name: setting up the permissions
     community.rabbitmq.rabbitmq_user:
