@@ -12,7 +12,7 @@
       name: rabbitmq-server
       state: present
 
-  - name: setting up the permissions
+  - name: create and provide permissions to user
     community.rabbitmq.rabbitmq_user:
       user: roboshop
       password: roboshop123
