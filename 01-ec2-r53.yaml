@@ -44,7 +44,6 @@
         value: "{{ item.instances[0].private_ip_address }}"
         ttl: "1"
         overwrite: true
-     when: item.item != "frontend"
      loop: "{{ ec2_output.results }}"
 
    - name: update rotu53 records
