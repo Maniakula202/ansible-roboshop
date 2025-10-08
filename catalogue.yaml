@@ -89,4 +89,4 @@
       name: redis
       state: restarted
       enabled: yes
-      deamon_reaload: yes
+      deamon_reload: yes
