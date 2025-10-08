@@ -1,0 +1,85 @@
+- name: Setup catalogue server
+  hosts: catalogue
+  become: yes
+  tasks:
+  - name: Disabling default nodejs
+    ansible.builtin.command: dnf module disable nodejs -y
+
+  - name: Enablinh nodejs:20
+    ansible.builtin.command: dnf module enable nodejs:20 -y
+
+  - name: Installing nodejs and mongodb-mongosh
+    ansible.builtin.dnf:
+      name: {{ item }}
+      state: present
+    loop: 
+    - nodejs
+    - mongodb-mongosh
+    
+  - name: Deleting the app directory to remove the old code
+    ansible.builtin.file:
+        path: /app
+        state: absent
+
+  - name: Creating the app directory 
+    ansible.builtin.file:
+        path: /app
+        state: directory
+  
+  - name: Adding system user
+    ansible.builtin.user:
+      name: roboshop
+      shell: /sbin/nologin
+      home: /app
+      system: true
+      comment: roboshop system user
+
+  - name: Delete catalogue file
+    ansible.builtin.file:
+      path: /tmp/catalogue.zip
+      state: absent
+
+  - name: Dowloading the code 
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+  - name: Unzipping the code to the temp file
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+
+  - name: Installing nodejs dependencies
+    community.general.npm:
+      path: /app
+  
+  - name: Copying the systemctl service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: connnect to mongodb catalogue
+    ansible.builtin.command: mongosh mongodb.manidevops.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
+    register: catalogue_output
+
+  # - name: evaluate cataalogue database
+  #   community.mongodb.mongodb_shell:
+  #     login_host: mongodb.manidevops.fun
+  #     eval: db.getMongo().getDBNames().indexOf('catalogue')
+  #   register: catalogue_output
+
+  # - name: print catalogue output
+  #   ansible.builtin.debug:
+  #     msg: "{{ catalogue_output }}"
+
+  - name: load products into mongodb
+    ansible.builtin.shell: mongosh --host mongodb.manidevops.fun </app/db/master-data.js
+    when: catalogue_output.stdout | int < 0
+
+  - name: enabling and starting the redis
+    ansible.builtin.systemd_service:
+      name: redis
+      state: restarted
+      enabled: yes
+      deamon_reaload: yes
