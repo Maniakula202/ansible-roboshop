@@ -5,7 +5,7 @@
   - name: update the rabbitmq.repo
     ansible.builtin.copy:
       src: rabbitmq.repo
-      dest: /etc/yum.repo.d/rabbitmq.repo
+      dest: /etc/yum.repos.d/rabbitmq.repo
   
   - name: install rebbitmq
     ansible.builtin.dnf:
