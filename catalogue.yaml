@@ -10,7 +10,7 @@
 
   - name: Installing nodejs and mongodb-mongosh
     ansible.builtin.dnf:
-      name: {{ item }}
+      name: "{{ item }}"
       state: present
     loop: 
     - nodejs
