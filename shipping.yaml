@@ -58,6 +58,15 @@
     ansible.builtin.copy:
       src: shipping.service
       dest: /etc/systemd/system/shipping.service
+
+  - name: Installing python dependencies for loading mysql
+    ansible.builtin.pip:
+      name: "{{ item }}"
+      executable: pip3.9
+      state: present
+    loop:
+    - cryptography
+    - PyMySQL
   
   - name: Loading schema, app-user and masterdata
     community.mysql.mysql_db:
