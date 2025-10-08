@@ -6,11 +6,11 @@
     sg_id: "sg-0d7d38fd2dd9739a0"
     zone_id: "Z04762511YRI8TCYP5ZSP"
     domain_name: "manidevops.fun"
-    instances:
-    - mysql
-    - nodejs
-    - frontend
-
+    # instances:
+    # - mysql
+    # - nodejs
+    # - frontend
+    
   tasks:
    - name: Launch an EC2 Instance
      amazon.aws.ec2_instance:
