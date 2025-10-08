@@ -8,7 +8,7 @@
         dest: /etc/yum.repos.d/mongo.repo
     - name: install mongodb
       ansible.builtin.dnf:
-        name: mongodb
+        name: mongodb-org
         state: present
     - name: updating the mongod conf file 
       ansible.builtin.replace:
@@ -20,5 +20,5 @@
         name: mongod
         enabled: yes
         state: restarted
-        
+
         
