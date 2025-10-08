@@ -1,0 +1,19 @@
+- name: Setup mysql server
+  hosts: mysql
+  become: yes
+  tasks:
+  - name: install mysql 
+    ansible.builtin.dnf:
+      name: mysql-server
+      state: present
+
+  - name: setting up the root user 
+    ansible.builtin.user:
+      name: root
+      password: "{{ RoboShop@1 }}"
+
+  - name: enabling and starting the mysql
+    ansible.builtin.service:
+      name: mysql
+      state: restarted
+      enabled: yes
